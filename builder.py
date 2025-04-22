@@ -744,6 +744,27 @@ class YaccBuildComposer(BuildSystemComposer):
         return ['yacc', path, ('default', None)], d
 
 
+class ShellBuildComposer(BuildSystemComposer):
+    def __init__(self, file, dir):
+        self.file = file
+        self.dir = dir
+    
+    #def compose(self, path):
+    #    cmd = ''
+    #    if self.dir is not None:
+    #        cmd += 'cd ' + self.dir + '; '
+    #    if self.file is not None:
+    #        cmd += 'sh ' + self.dir + '/' + self.file + '; '
+    #    return ['sh', '-c', cmd]
+
+    def compose(self, path):
+        d = {
+            'file': path,
+            'result': self.file,
+            'dir': self.dir
+        }
+        return ['sh', path, ('default', None)], d
+
 class File(object):
     '''A file of source we move backwards and forwards and build.'''
     def __init__(self, space, path, pathComposer, forwardConverter,
@@ -1181,6 +1202,7 @@ class ModuleManager(object):
         self.generator['route-keywords'] = RouteKeywordsBuildComposer
         self.generator['lex'] = LexBuildComposer
         self.generator['yacc'] = YaccBuildComposer
+        self.generator['sh'] = ShellBuildComposer
 
         self.generator['source-if-header'] = SourceFileIfHeaderComposer
         self.generator['test-if-header'] = TestIfHeaderComposer

@@ -4551,6 +4551,75 @@ class usr_bin_openssl(builder.Module):
         )
 
 #
+# /bin/sh
+#
+class bin_sh(builder.Module):
+    
+    def __init__(self, manager):
+        super(bin_sh, self).__init__(manager, type(self).__name__)
+
+    def generate(self):
+        mm = self.manager
+        cflags = ['-DSHELL=1', '-I../../lib/libedit']
+        #self.addUserSpaceHeaderFiles(
+        #    [
+        #        'contrib/expat/lib/ascii.h',
+        #    ]
+        #)
+        
+        #self.addFile(mm.generator['file']('user',
+        #                                  'bin/sh/mkbuiltins',
+        #                                  mm.generator['freebsd-path'](),
+        #                                  mm.generator['convert'](),
+        #                                  mm.generator['convert'](),
+        #                                  mm.generator['sh']('mkbuiltins', 'freebsd/bin/sh')))
+        
+        self.addUserSpaceSourceFiles(
+            [
+                'bin/sh/alias.c',
+                'bin/sh/arith_yacc.c',
+                'bin/sh/arith_yylex.c',
+                'bin/sh/cd.c',
+                'bin/sh/bltin/echo.c',
+                'bin/sh/error.c',
+                'bin/sh/eval.c',
+                'bin/sh/exec.c',
+                'bin/sh/expand.c',
+                'bin/sh/histedit.c',
+                'bin/sh/input.c',
+                'bin/sh/jobs.c',
+                'bin/sh/mail.c',
+                'bin/sh/main.c',
+                'bin/sh/memalloc.c',
+                'bin/sh/miscbltin.c',
+                'bin/sh/mystring.c',
+                'bin/sh/options.c',
+                'bin/sh/output.c',
+                'bin/sh/parser.c',
+                'bin/sh/redir.c',
+                'bin/sh/show.c',
+                'bin/sh/trap.c',
+                'bin/sh/var.c',
+                'bin/kill/kill.c',
+                'bin/test/test.c',
+                'usr.bin/printf/printf.c',
+            ],
+            mm.generator['source'](cflags, includes=['lib/libedit', 'bin/sh'])
+        )
+        
+        def dummy(x):
+            pass
+        
+        #self.addFiles('user',
+        #              ['bin/sh/builtins.c', 'bin/sh/builtins.h'],
+        #              mm.generator['freebsd-path'](),
+        #              mm.generator['convert'](),
+        #              mm.generator['convert'](),
+        #              dummy,
+        #              mm.generator['sh']('mkbuiltins', 'freebsd/bin/sh'))
+
+
+#
 # Contrib expat
 #
 class contrib_expat(builder.Module):
@@ -5707,6 +5776,7 @@ def load(mm):
 
     mm.addModule(user_space(mm))
     mm.addModule(user_space_wlanstats(mm))
+    mm.addModule(bin_sh(mm))
     mm.addModule(contrib_expat(mm))
     mm.addModule(contrib_libpcap(mm))
     mm.addModule(usr_sbin_tcpdump(mm))

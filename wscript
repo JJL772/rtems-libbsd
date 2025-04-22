@@ -190,6 +190,7 @@ def configure(conf):
         conf.find_program("lex", mandatory=True)
         conf.find_program("rpcgen", mandatory=True)
         conf.find_program("yacc", mandatory=True)
+        conf.find_program("sh", mandatory=True)
     conf.env.AUTO_REGEN = conf.options.auto_regen
     conf.env.WARNINGS = conf.options.warnings
     conf.env.NET_CONFIG = conf.options.net_config
