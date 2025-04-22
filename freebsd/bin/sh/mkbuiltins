@@ -34,7 +34,7 @@
 #	@(#)mkbuiltins	8.2 (Berkeley) 5/4/95
 # $FreeBSD$
 
-temp=`mktemp -t ka`
+temp=`mktemp -t kaXXXXX`
 havehist=1
 if [ "X$1" = "X-h" ]; then
 	havehist=0
