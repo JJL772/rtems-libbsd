@@ -341,6 +341,7 @@ umaskcmd(int argc __unused, char **argv __unused)
 			} while (*++ap != '\0');
 			umask(mask);
 		} else {
+		#ifndef __rtems__
 			void *set;
 			INTOFF;
 			if ((set = setmode (ap)) == NULL)
@@ -350,6 +351,10 @@ umaskcmd(int argc __unused, char **argv __unused)
 			umask(~mask & 0777);
 			free(set);
 			INTON;
+		#else
+			/** TODO: RTEMS: PORT ME! */
+			error("Unsupported number: %s", ap);
+		#endif
 		}
 	}
 	return 0;
@@ -423,6 +428,8 @@ static const struct limits limits[] = {
 };
 
 enum limithow { SOFT = 0x1, HARD = 0x2 };
+
+#ifndef __rtems__
 
 static void
 printlimit(enum limithow how, const struct rlimit *limit,
@@ -532,3 +539,5 @@ ulimitcmd(int argc __unused, char **argv __unused)
 		printlimit(how, &limit, l);
 	return 0;
 }
+
+#endif // __rtems__

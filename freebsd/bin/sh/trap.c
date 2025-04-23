@@ -89,6 +89,11 @@ static int exiting_exitstatus;	/* value passed to exitshell() */
 
 static int getsigaction(int, sig_t *);
 
+#ifdef __rtems__
+extern const char* const sys_signame[];
+extern const char* const sys_siglist[];
+extern const int sys_nsig;
+#endif
 
 /*
  * Map a string to a signal number.

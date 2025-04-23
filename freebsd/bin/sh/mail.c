@@ -87,7 +87,13 @@ chkmail(int silent)
 		p = mpath;
 		if (*p == '\0')
 			break;
+	#ifdef __rtems__
+		mpath = strchr(mpath, ':');
+		if (!mpath)
+			mpath = "";
+	#else
 		mpath = strchrnul(mpath, ':');
+	#endif
 		if (*mpath != '\0') {
 			*mpath++ = '\0';
 			if (p == mpath - 1)

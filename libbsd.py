@@ -3309,6 +3309,7 @@ class user_space(builder.Module):
                 'lib/libc/gen/getdomainname.c',
                 'lib/libc/gen/gethostname.c',
                 'lib/libc/gen/sethostname.c',
+                'lib/libc/gen/siglist.c',
                 'lib/libc/inet/inet_addr.c',
                 'lib/libc/inet/inet_cidr_ntop.c',
                 'lib/libc/inet/inet_cidr_pton.c',
@@ -3382,6 +3383,7 @@ class user_space(builder.Module):
                 'lib/libc/stdio/fgetln.c',
                 'lib/libc/stdlib/strtonum.c',
                 'lib/libc/string/strsep.c',
+                'lib/libc/string/strsignal.c',
                 'lib/libmemstat/memstat_all.c',
                 'lib/libmemstat/memstat.c',
                 'lib/libmemstat/memstat_malloc.c',
@@ -4560,7 +4562,7 @@ class bin_sh(builder.Module):
 
     def generate(self):
         mm = self.manager
-        cflags = ['-DSHELL=1', '-I../../lib/libedit']
+        cflags = ['-DSHELL=1', '-D_PATH_DEFPATH="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"']
         #self.addUserSpaceHeaderFiles(
         #    [
         #        'contrib/expat/lib/ascii.h',
@@ -4604,7 +4606,7 @@ class bin_sh(builder.Module):
                 'bin/test/test.c',
                 'usr.bin/printf/printf.c',
             ],
-            mm.generator['source'](cflags, includes=['lib/libedit', 'bin/sh'])
+            mm.generator['source'](cflags, includes=['freebsd/lib/libedit', 'freebsd/bin/sh'])
         )
         
         def dummy(x):

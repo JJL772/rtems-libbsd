@@ -148,6 +148,11 @@ static int getjobstatus(const struct job *);
 static void printjobcmd(struct job *);
 static void showjob(struct job *, int);
 
+#ifdef __rtems__
+#define _PATH_TMP "/tmp"
+#define _PATH_TTY "/dev/tty"
+#define WCONTINUED 0
+#endif
 
 /*
  * Turn job control on and off.
@@ -421,8 +426,10 @@ showjob(struct job *jp, int mode)
 		statestr = strsignal(i);
 		if (statestr == NULL)
 			statestr = "Unknown signal";
+	#ifndef __rtems__
 		if (WCOREDUMP(status))
 			coredump = " (core dumped)";
+	#endif
 	}
 
 	for (ps = jp->ps ; procno > 0 ; ps++, procno--) { /* for each process */
