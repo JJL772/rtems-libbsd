@@ -94,8 +94,13 @@ static char *find_dot_file(char *);
  * is used to figure out how far we had gotten.
  */
 
+#ifdef __rtems__
+int
+rtems_sh_main(int argc, char *argv[])
+#else
 int
 main(int argc, char *argv[])
+#endif
 {
 	struct stackmark smark, smark2;
 	volatile int state;

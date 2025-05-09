@@ -60,6 +60,12 @@ __FBSDID("$FreeBSD$");
 #include "bltin/bltin.h"
 #endif
 
+#ifdef __rtems__
+extern const char* const sys_signame[];
+extern const char* const sys_siglist[];
+extern const int sys_nsig;
+#endif
+
 static void nosig(const char *);
 static void printsignals(FILE *);
 static int signame_to_signum(const char *);

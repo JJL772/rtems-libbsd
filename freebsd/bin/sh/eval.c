@@ -72,6 +72,10 @@ __FBSDID("$FreeBSD$");
 #include "myhistedit.h"
 #endif
 
+#ifdef __rtems__
+#define _PATH_STDPATH "/sbin:/bin:/usr/sbin:/usr/bin"
+#endif
+
 
 int evalskip;			/* set if we are skipping commands */
 int skipcount;			/* number of levels to skip */

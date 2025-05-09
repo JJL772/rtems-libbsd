@@ -61,6 +61,10 @@ __FBSDID("$FreeBSD$");
 #include "memalloc.h"
 #include "builtins.h"
 
+#ifdef __rtems__
+#define _PATH_TMP "/tmp"
+#endif
+
 #define MAXHISTLOOPS	4	/* max recursions through fc */
 #define DEFEDITOR	"ed"	/* default editor *should* be $EDITOR */
 
